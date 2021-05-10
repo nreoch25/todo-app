@@ -1,9 +1,10 @@
 import React from "react";
+import Create from "../components/Create";
 
 const CreateTodoPage = () => {
   return (
     <div>
-      <h1>Create</h1>
+      <Create />
     </div>
   );
 };

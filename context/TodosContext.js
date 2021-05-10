@@ -1,41 +1,35 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useRef } from "react";
 
 const TodosContext = createContext({});
 
-const initialState = {
-  1: {
-    title: "Todo 1",
-    description: "This is a first todo",
-    status: "pending",
-    due: "",
-  },
-  2: {
-    title: "Todo 2",
-    description: "This is a second todo",
-    status: "pending",
-    due: "",
-  },
-};
-
 const reducer = (state, action) => {
+  console.log("ACTION", action);
   switch (action.type) {
     case "ADD":
-      return state;
+      return { ...state, [action.id]: action.payload };
     case "EDIT":
       return state;
     case "REMOVE":
-      return state;
+      const newState = Object.keys(state).reduce((object, key) => {
+        if (key !== action.payload) {
+          object[key] = state[key];
+        }
+        return object;
+      }, {});
+      return newState;
     default:
       throw new Error("Not an allowed action type");
   }
 };
 
 const TodosProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, {});
+  const totalTodos = useRef(0);
 
   const value = {
     state,
     dispatch,
+    totalTodos,
   };
 
   return <TodosContext.Provider value={value}>{children}</TodosContext.Provider>;
