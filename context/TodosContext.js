@@ -8,15 +8,15 @@ const reducer = (state, action) => {
     case "ADD":
       return { ...state, [action.id]: action.payload };
     case "EDIT":
-      return state;
+      return { ...state, [action.id]: action.payload };
     case "REMOVE":
-      const newState = Object.keys(state).reduce((object, key) => {
+      const removeState = Object.keys(state).reduce((object, key) => {
         if (key !== action.payload) {
           object[key] = state[key];
         }
         return object;
       }, {});
-      return newState;
+      return removeState;
     default:
       throw new Error("Not an allowed action type");
   }

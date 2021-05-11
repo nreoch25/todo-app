@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { parseISO, format } from "date-fns";
+import Link from "next/link";
 import { ListGroup, ListGroupItem, Button } from "reactstrap";
 import { TodosContext } from "../context/TodosContext";
 
@@ -21,15 +22,25 @@ const Todos = () => {
           return (
             <ListGroupItem key={key}>
               <div className="float-right">
-                <Button className="mr-3">Edit</Button>
+                <Button className="mr-3">
+                  <Link href={`/edit/${key}`}>
+                    <span className="text-white">Edit</span>
+                  </Link>
+                </Button>
                 <Button color="danger" onClick={handleRemove(key)}>
                   Delete
                 </Button>
               </div>
-              <h3>{value.title}</h3>
-              <p>{value.description}</p>
-              <p>{value.status}</p>
-              <p className="font-weight-bold">Due: {dueDate}</p>
+              <h3 className="mb-4">{value.title}</h3>
+              <p>
+                Description: <span className="font-weight-bold">{value.description}</span>
+              </p>
+              <p>
+                Status: <span className="font-weight-bold">{value.status}</span>
+              </p>
+              <p>
+                Due Date: <span className="font-weight-bold">{dueDate}</span>
+              </p>
             </ListGroupItem>
           );
         })}

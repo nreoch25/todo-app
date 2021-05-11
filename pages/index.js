@@ -1,10 +1,10 @@
-import React from "react";
+import { Container } from "reactstrap";
 
 const IndexPage = () => {
   return (
-    <div>
+    <Container>
       <h1>Index</h1>
-    </div>
+    </Container>
   );
 };
 

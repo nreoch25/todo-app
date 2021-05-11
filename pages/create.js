@@ -1,11 +1,12 @@
 import React from "react";
+import { Container } from "reactstrap";
 import Create from "../components/Create";
 
 const CreateTodoPage = () => {
   return (
-    <div>
+    <Container>
       <Create />
-    </div>
+    </Container>
   );
 };
 

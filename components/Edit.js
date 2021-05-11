@@ -1,31 +1,35 @@
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
 import {
-  Alert,
-  Button,
   Form,
   FormGroup,
-  Input,
   Label,
+  Input,
+  Button,
   Row,
   Col,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
+  Alert,
 } from "reactstrap";
 import DatePicker from "reactstrap-date-picker";
 import { TodosContext } from "../context/TodosContext";
 
-const Create = () => {
+const Edit = ({ id }) => {
+  const { state, dispatch, totalTodos } = useContext(TodosContext);
+  const item = state[id];
+  if (!item) {
+    return <p>todo with id {id} does not exist</p>;
+  }
   const [todo, setTodo] = useState({
-    title: "",
-    description: "",
-    status: "pending",
-    dueDate: new Date().toISOString(),
+    title: item.title,
+    description: item.description,
+    status: item.status,
+    dueDate: item.dueDate,
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const { dispatch, totalTodos } = useContext(TodosContext);
 
   const saveToState = ({ target: { name, value } }) => {
     setTodo({ ...todo, [name]: value });
@@ -42,31 +46,24 @@ const Create = () => {
       return setError("Please fill in form fields");
     }
 
-    totalTodos.current = totalTodos.current + 1;
-
     dispatch({
-      type: "ADD",
+      type: "EDIT",
       id: totalTodos.current,
       payload: todo,
     });
 
-    setSuccess("Todo successfully created");
-    setTodo({
-      title: "",
-      description: "",
-      status: "pending",
-      dueDate: new Date().toISOString(),
-    });
+    setSuccess("Todo successfully edited");
   };
 
   return (
     <Row style={{ paddingTop: "100px" }}>
       <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }}>
         <Card>
-          <CardHeader className="text-center">Create Todo</CardHeader>
+          <CardHeader className="text-center">Edit Todo</CardHeader>
           <CardBody>
             <Form onSubmit={handleSubmit}>
               <FormGroup>
+                <Label>Title</Label>
                 <Input
                   type="text"
                   name="title"
@@ -76,6 +73,7 @@ const Create = () => {
                 />
               </FormGroup>
               <FormGroup>
+                <Label>Description</Label>
                 <Input
                   type="text"
                   name="description"
@@ -85,16 +83,30 @@ const Create = () => {
                 />
               </FormGroup>
               <FormGroup>
+                <Label>Status</Label>
+                <Input
+                  type="select"
+                  name="status"
+                  value={todo.status}
+                  onChange={saveToState}
+                  required
+                >
+                  {["pending", "done"].map((status) => {
+                    return <option key={status}>{status}</option>;
+                  })}
+                </Input>
+              </FormGroup>
+              <FormGroup>
                 <Label>Due date</Label>
                 <DatePicker
                   dateFormat="MM/DD/YYYY"
-                  id="todo-datepicker"
+                  id="todo-datepicker2"
                   value={todo.dueDate}
                   onChange={(value, formatted) => handleChange(value, formatted)}
                 />
               </FormGroup>
               <Button type="submit" color="primary" block>
-                Create
+                Edit
               </Button>
             </Form>
           </CardBody>
@@ -118,4 +130,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default Edit;
