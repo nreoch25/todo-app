@@ -57,7 +57,7 @@ const Create = () => {
   };
 
   return (
-    <Row style={{ paddingTop: "100px" }}>
+    <Row className="mt-4">
       <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }}>
         <Card>
           <CardHeader className="text-center">Create Todo</CardHeader>
@@ -97,14 +97,14 @@ const Create = () => {
           </CardBody>
           {error && (
             <CardFooter>
-              <Alert style={{ marginBottom: "0" }} color="danger">
+              <Alert color="danger" className="mb-0">
                 {error}
               </Alert>
             </CardFooter>
           )}
           {success && (
             <CardFooter>
-              <Alert style={{ marginBottom: "0" }} color="success">
+              <Alert color="success" className="mb-0">
                 {success}
               </Alert>
             </CardFooter>

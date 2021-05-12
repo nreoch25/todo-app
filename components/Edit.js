@@ -56,7 +56,7 @@ const Edit = ({ id }) => {
   };
 
   return (
-    <Row style={{ paddingTop: "100px" }}>
+    <Row className="mt-4">
       <Col sm="12" md={{ size: 8, offset: 2 }} lg={{ size: 6, offset: 3 }}>
         <Card>
           <CardHeader className="text-center">Edit Todo</CardHeader>
@@ -112,14 +112,14 @@ const Edit = ({ id }) => {
           </CardBody>
           {error && (
             <CardFooter>
-              <Alert style={{ marginBottom: "0" }} color="danger">
+              <Alert className="mb-0" color="danger">
                 {error}
               </Alert>
             </CardFooter>
           )}
           {success && (
             <CardFooter>
-              <Alert style={{ marginBottom: "0" }} color="success">
+              <Alert className="mb-0" color="success">
                 {success}
               </Alert>
             </CardFooter>
