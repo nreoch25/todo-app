@@ -17,10 +17,10 @@ import DatePicker from "reactstrap-date-picker";
 import { TodosContext } from "../context/TodosContext";
 
 const Edit = ({ id }) => {
-  const { state, dispatch, totalTodos } = useContext(TodosContext);
+  const { state, dispatch } = useContext(TodosContext);
   const item = state[id];
   if (!item) {
-    return <p>todo with id {id} does not exist</p>;
+    return <h6 className="mt-3">todo with id {id} does not exist</h6>;
   }
   const [todo, setTodo] = useState({
     title: item.title,
@@ -48,7 +48,7 @@ const Edit = ({ id }) => {
 
     dispatch({
       type: "EDIT",
-      id: totalTodos.current,
+      id,
       payload: todo,
     });
 

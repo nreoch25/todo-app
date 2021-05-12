@@ -25,7 +25,7 @@ const Create = () => {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const { dispatch, totalTodos } = useContext(TodosContext);
+  const { dispatch } = useContext(TodosContext);
 
   const saveToState = ({ target: { name, value } }) => {
     setTodo({ ...todo, [name]: value });
@@ -42,11 +42,8 @@ const Create = () => {
       return setError("Please fill in form fields");
     }
 
-    totalTodos.current = totalTodos.current + 1;
-
     dispatch({
       type: "ADD",
-      id: totalTodos.current,
       payload: todo,
     });
 
