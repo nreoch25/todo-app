@@ -1,14 +1,20 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useEffect } from "react";
 
 const TodosContext = createContext({});
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "INITIALIZE":
+      return { ...state, ...action.payload };
     case "ADD":
       const id = Math.floor(Math.random() * 100000000 + 1);
-      return { ...state, [id]: action.payload };
+      const addState = { ...state, [id]: action.payload };
+      localStorage.setItem("todos", JSON.stringify(addState));
+      return addState;
     case "EDIT":
-      return { ...state, [action.id]: action.payload };
+      const editState = { ...state, [action.id]: action.payload };
+      localStorage.setItem("todos", JSON.stringify(editState));
+      return editState;
     case "REMOVE":
       const removeState = Object.keys(state).reduce((object, key) => {
         if (key !== action.payload) {
@@ -16,6 +22,7 @@ const reducer = (state, action) => {
         }
         return object;
       }, {});
+      localStorage.setItem("todos", JSON.stringify(removeState));
       return removeState;
 
     default:
@@ -25,6 +32,13 @@ const reducer = (state, action) => {
 
 const TodosProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {});
+
+  useEffect(() => {
+    if (localStorage.getItem("todos")) {
+      const todos = JSON.parse(localStorage.getItem("todos"));
+      dispatch({ type: "INITIALIZE", payload: todos });
+    }
+  }, []);
 
   const value = {
     state,
